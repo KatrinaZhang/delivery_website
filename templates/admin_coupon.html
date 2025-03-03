@@ -1,0 +1,41 @@
+{% extends "base.html" %} 
+{% block main_content %}
+<section class="admin">
+    <section>
+        <h1>Coupons</h1>
+            <p><a href="{{ url_for( 'admin_coupon_add' ) }}"><b>Add Coupon</b></a></p>
+            <table>
+                <tr>
+                    {% for key in coupons[0].keys() %}
+                        <td>{{key}}</td>
+                    {% endfor %}
+                </tr>
+                {% for coupon in coupons %}
+                <tr>
+                    {% for key in coupon.keys() %}
+                        <td>{{coupon[key]}}</td>
+                    {% endfor %}
+                    <!-- {# <td><a href="{{ url_for( 'admin_coupon_delete', coupon_id=coupon["coupon_id"]  ) }}">DELETE</a></td>
+                    <td>
+                        {% if coupon["is_admin"] %}
+                        <a href="{{ url_for( 'admin_coupon_stepdown_admin', coupon_id=coupon["coupon_id"]  ) }}">Stepdown Admin</a>
+                        {% else %}
+                        <a href="{{ url_for( 'admin_coupon_make_admin', coupon_id=coupon["coupon_id"]  ) }}">Make Admin</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if coupon["is_member"] %}
+                        <a href="{{ url_for( 'admin_coupon_stepdown_member', coupon_id=coupon["coupon_id"]  ) }}">Stepdown Member</a>
+                        {% else %}
+                        <a href="{{ url_for( 'admin_coupon_make_member', coupon_id=coupon["coupon_id"]  ) }}">Make Member</a>
+                        {% endif %}
+                    </td> #} -->
+                </tr>
+                {% endfor %}
+            </table>
+            <a href="{{ url_for( 'admin_user' ) }}" ><p>User Data</p></a>
+            <a href="{{ url_for( 'admin_product' ) }}"><p>Product Data</p></a>
+
+    </section>
+</section>
+{% endblock %}

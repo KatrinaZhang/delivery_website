@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block main_content %}
+<section id="item">
+    <h1>{{ item["item_name"] }}</h1>
+    <img src="{{url_for('static',filename=item["item_id"]|string+".jpeg")}}" alt="{{item["item_name"]}}" title="{{item["item_name"]}}"/>
+    <p>Price: {{ item["item_price"] }}</p> 
+    <p> {{ item["item_description"] }}</p>
+
+
+    
+    <form action="" method="POST" novalidate>
+    {{ form.hidden_tag() }}
+    {% if compulsory_lst %}
+        <h3>{{ form.compulsory_option.label}}</h3>
+        {{ form.compulsory_option()}}
+        {% for error in form.compulsory_option.errors %}
+            {{ error }}
+        {% endfor %}
+    {% endif %}
+
+    {% if supplementary_dic %}
+        <h3>Supplementary Option</h3>
+        {% for item in supplementary_dic %}
+            {{ form[item]() }}
+            {{ form[item].label }}
+            (+€{{supplementary_dic[item]}})
+            </br>   
+        {% endfor %} 
+    {% endif %}
+
+    {{form.quantity.label}}
+    {{form.quantity()}}
+    {% for error in form.quantity.errors %} 
+        {{ error }} 
+    {% endfor %}
+    </br>
+    {{ form.submit() }}  
+    
+    </form> 
+
+
+    {% if is_calculated %}
+        <p><b>{{entry_tpl[0]}}</b></p>
+        {% if entry_tpl|length >2 or entry_tpl[1] %}
+        <p>
+        (  
+            {% if entry_tpl[1] %}
+                {{entry_tpl[1]}}
+                {% for item in entry_tpl[2:] %}   
+                        ,&nbsp;{{item}}
+                {% endfor %}
+            {% else %}
+                {% if entry_tpl[2] %}
+                    {{entry_tpl[2]}}
+                {% endif %}
+                {% for item in entry_tpl[3:] %}   
+                        ,&nbsp;{{item}}
+                {% endfor %}
+
+            {% endif %}
+            
+            )
+        </p>
+        <!-- {# entry_tpl[2:]在tuple只有1个item的时候也没有报错 #} -->
+        {% endif %}
+        <p>price = €{{price}} * {{quantity}} = {{total_price}}</p>
+        <a href={{ url_for('add_to_cart',entry_tpl_str=entry_tpl_str,quantity=quantity) }} class="paragraph-link"><p>Add for €{{total_price}}</p></a>
+
+
+    {% endif %}
+
+
+</section>    
+{% endblock %}

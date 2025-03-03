@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>FiXi Restaurant</title>
+    <link rel="stylesheet" href="../static/homepage.css">
+
+</head>
+
+<body>
+    <header>
+    <p><a href="{{url_for('homepage')}}">Homepage</a></p>
+    <p><a href="{{url_for('whurdle')}}">Win Membership</a></p>
+    <p><a href="{{url_for('rps15')}}">Win Coupon</a></p>
+        {% if g.user %}
+            <p><a href="{{url_for('profile')}}">User id: {{ g.user }}</a></p>
+            <p><a href="{{url_for('cart')}}">Cart{% if g.sum_quantity %}({{g.sum_quantity}}){% endif %}</a></p>   
+            <p><a href="{{url_for('logout')}}">Log out</a></p>        
+        {% else %}
+            <p><a href="{{url_for('register')}}">Register</a></p>
+            <p><a href="{{url_for('login')}}">Login</a></p>
+        {% endif %}
+    </header> 
+    <main>
+    {% block main_content %} 
+    <!-- main_content is a name, only _ no - in the name -->
+
+    {% endblock %}
+    </main> 
+    <footer>
+        <p><a href="{{url_for('attribution')}}">Attribution</a></p>
+        <p>FiXi, Fictional Xiaoyao Restaurant, 666 Oliver Plunkett Street, Cork, Ireland. Tel. +353 21 123 4567 </p>
+        <p>© 2023–2024 Fictional Xiaoyao Restaurant ltd, Registered in Ireland No. 666666.</p>
+    </footer>
+</body>
+
+</html>

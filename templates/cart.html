@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<section>
+    <h1>Your cart</h1> 
+    {% if cart %} 
+        <table>
+        {% for entry_tpl in cart %}
+            {% set entry_tpl_str = entry_tpl | tojson %}
+            <tr>
+                <td><a href="{{ url_for('remove_from_cart',entry_tpl_str=entry_tpl_str) }}">🗑️</a></td> 
+                <td>
+                    <b>{{entry_tpl[0]}}</b>
+                    {% if entry_tpl|length >2 or entry_tpl[1] %}
+                    (  
+                        {% if entry_tpl[1] %}
+                            {{entry_tpl[1]}}
+                            {% for item in entry_tpl[2:] %}   
+                                    ,&nbsp;{{item}}
+                            {% endfor %}
+                        {% else %}
+                            {% if entry_tpl[2] %}
+                                {{entry_tpl[2]}}
+                            {% endif %}
+                            {% for item in entry_tpl[3:] %}   
+                                    ,&nbsp;{{item}}
+                            {% endfor %}
+
+                        {% endif %}
+                        
+                        )
+                    {% endif %}
+                </td>
+                <td><a href="{{ url_for('deduct_from_cart',entry_tpl_str=entry_tpl_str,quantity=1)}}">➖</a></td> 
+                <td>{{ cart[entry_tpl] }}</td>
+                <td><a href="{{ url_for('add_to_cart',entry_tpl_str=entry_tpl_str,quantity=1) }}">➕</a></td> 
+                <td>€{{ total_prices[entry_tpl] }}</td>
+            </tr>
+        {% endfor %} 
+        </table>
+        <p>Subtotal:€{{sub_total}}</p>
+        <a href="{{ url_for('checkout')}}" class="paragraph-link"><p>check out</p></a>
+    {% else %}
+        <p>Your cart is empty!</p> 
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block main_content %} 
+<section id="rps">
+    <h1>Play to win a coupon, you can try as many as you want!</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag () }} 
+        {{ form.rps_choice.label }}
+        {{ form.rps_choice()}}
+        <br/>  
+        {{ form.submit() }} 
+    </form>
+        {% if result %}
+            <p>You chose {{player}}.</p>
+            <p>Computer chose {{computer}}.</p>
+            <p><b>{{result}}</b></p>
+        {% endif %}
+    <p>Here is a illustration of who beats whom</p>
+    <img src="{{url_for('static',filename="rps15.jpg")}}" alt="rps15 who beat who demonstration" title="rps15 who beat who demonstration"/>
+</section>
+{% endblock %}

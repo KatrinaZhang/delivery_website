@@ -1,0 +1,17 @@
+{% extends "base.html" %} 
+{% block main_content %}
+<section id="admin">
+    <a href="{{ url_for( 'admin_user' ) }}" class="paragraph-link"><p>User Data</p></a>
+    <a href="{{ url_for( 'admin_product' ) }}" class="paragraph-link"><p>Product Data</p></a>
+    <a href="{{ url_for( 'admin_coupon' ) }}" class="paragraph-link"><p>Coupon Data</p></a>
+    <h1>Statistic Summary</h3>
+    <h3>Total Income (EUR equivalent) in the Latest 10 Days</h3>
+    <img src="https://quickchart.io/chart?v=2.9.4&c={ type: 'bar', data: { labels: {{label_lst}}, datasets: [ { label: 'EUR(equivalent) Income', data: {{data_lst}} } ], }, }">
+    <h3>Top 5 paid (EUR equivalent) users</h3>
+    <img src="https://quickchart.io/chart?v=2.9.4&c={ type: 'bar', data: { labels: {{label2_lst}}, datasets: [ { label: 'Top 5 paid users', data: {{data2_lst}} } ], }, }">
+    <h3>Dish Sale</h3>
+    <img src="https://quickchart.io/chart?v=2.9.4&c={ type: 'bar', data: { labels: {{label3_lst}}, datasets: [ { label: 'Dish Sale', data: {{data3_lst}} } ], }, }">
+    <h3>Dish(style,dip) Sale</h3>
+    <img src="https://quickchart.io/chart?v=2.9.4&c={ type: 'bar', data: { labels: {{label4_lst}}, datasets: [ { label: 'Dish(style,dip) Sale', data: {{data4_lst}} } ], }, }">
+</section>
+{% endblock %}

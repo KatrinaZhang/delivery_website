@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block main_content %}
+<section id="profile">
+    <section>
+        {% if user["is_admin"] %}
+            <a href="{{ url_for( 'admin' ) }}" class="paragraph-link"><p>Enter Admin Console</p></a>
+        {% endif %}
+    </section>
+    <section>
+        <h1>Personal Detail</h1>
+        <table>
+            <tr>
+                <td>User ID: {{user["user_id"]}}</td>
+                <!-- <td>Change</td> -->
+            </tr>
+            <tr>
+                <td>Password: ******</td>
+                <!-- <td>Change</td> -->
+            </tr>
+            <tr>
+                <td>Country: {{user["country"]}}</td>
+                <!-- <td>Change</td> -->
+            </tr>
+            <tr>
+                <td>Address: {{user["address"]}}</td>
+                <!-- <td>Change</td> -->
+            </tr>
+            <tr>
+                <td>Membership: 
+                    {% if user["is_member"] %}
+                        YES
+                    {% else %}
+                        NO
+                    {% endif %}
+                    </td>
+                <!-- <td>Change</td> -->
+            </tr>
+            <tr>
+                <td>Latest Wordle fail: {{user["failed_day"]}}</td>
+                <!-- <td>Change</td> -->
+            </tr>
+            <tr>
+                <td>Admin: 
+                    {% if user["is_admin"] %}
+                        YES
+                    {% else %}
+                        NO
+                    {% endif %}
+                    </td>
+                <!-- <td>Change</td> -->
+            </tr>
+        </table>
+        <a href="{{ url_for( 'change_profile' ) }}" class="paragraph-link"><p>Modify Profile</p></a>
+    </section>
+    <section>
+        <h1>Summary Statistics</h1>
+        <p>Total paid amount (Euro equivalent): €{{sum}}</p>
+        <p>Total orders: {{q_order}}</p>
+        <p>Total dishes ordered: {{q_sum}}</p>
+        <p>Ratio of vegetarian dish ordered: {{r}}</p>
+        {% if r %}
+            <img src="https://quickchart.io/chart?c={type:'pie',data:{labels:['{{ label1 }}','{{ label2 }}'],datasets:[{data:[{{ value1 }},{{ value2 }}]}]}}">
+        {% endif %}
+    </section>
+    <section>
+    <h1>Orders</h1>
+        <table>
+            <tr>
+                <td>#</td>
+                <td>Order Time</td>
+                <td>Delivery(Pickup) Time</td>
+                <td>Delivery or Pickup</td>
+                <td>Order Content</td>
+                <td>Paid Amount</td>
+                <td>Paid Currency</td>
+                <td>EUR Equivalent</td>
+                <td>Note</td>
+            </tr>
+            {% for order in orders %}
+            <tr>
+                {% for key in order.keys() if key!="real_user_id" %}
+                    <td>
+                    {% if key=="order_content" %}
+                        {# {('Vegetarian Thai Fried Rice', 'Chinese Style'): 1, ('Veggie Spring Rolls', 'Chinese Style'): 1} #}
+                        <table>
+                        {% for entry_tpl in order[key] %}
+                            <tr>
+                                <td>
+                                    {{entry_tpl[0]}}
+                                    {% if entry_tpl|length >2 or entry_tpl[1] %}
+                                        (  
+                                            {% if entry_tpl[1] %}
+                                                {{entry_tpl[1]}}
+                                                {% for item in entry_tpl[2:] %}   
+                                                        ,&nbsp;{{item}}
+                                                {% endfor %}
+                                            {% else %}
+                                                {% if entry_tpl[2] %}
+                                                    {{entry_tpl[2]}}
+                                                {% endif %}
+                                                {% for item in entry_tpl[3:] %}   
+                                                        ,&nbsp;{{item}}
+                                                {% endfor %}
+
+                                            {% endif %}
+                                            )
+                                    {% endif %}
+                                </td>
+                                <td>*{{order[key][entry_tpl]}}</td>
+                            </tr>
+                        {% endfor %}
+                        </table> 
+
+                    {% else %}
+                        {{order[key]}}
+                    {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+
+        </table>
+    </section>    
+</section>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %} 
+{% block main_content %}
+<section class="admin">
+    <section>
+        <h1>Products</h1>
+            <table>
+                <tr>
+                    {% for key in items[0].keys() if key != "is_member_discount_allowed" and key != "is_coupon_allowed" and	key != "is_delivery_allowed" and key != "is_pickup_allowed" and key != "amount_available" %}
+                        <td>{{key}}</td>
+                    {% endfor %}
+                </tr>
+                {% for item in items %}
+                <tr>
+                    {% for key in item.keys() if key != "is_member_discount_allowed" and key != "is_coupon_allowed" and	key != "is_delivery_allowed" and key != "is_pickup_allowed" and key != "amount_available"%}
+                        <td>{{item[key]}}</td>
+                    {% endfor %}
+                    <!-- {# <td><a href="{{ url_for( 'admin_item_delete', item_id=item["item_id"]  ) }}">DELETE</a></td>
+                    <td>
+                        {% if item["is_admin"] %}
+                        <a href="{{ url_for( 'admin_item_stepdown_admin', item_id=item["item_id"]  ) }}">Stepdown Admin</a>
+                        {% else %}
+                        <a href="{{ url_for( 'admin_item_make_admin', item_id=item["item_id"]  ) }}">Make Admin</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item["is_member"] %}
+                        <a href="{{ url_for( 'admin_item_stepdown_member', item_id=item["item_id"]  ) }}">Stepdown Member</a>
+                        {% else %}
+                        <a href="{{ url_for( 'admin_item_make_member', item_id=item["item_id"]  ) }}">Make Member</a>
+                        {% endif %}
+                    </td> #} -->
+                </tr>
+                {% endfor %}
+            </table>
+            <a href="{{ url_for( 'admin_user' ) }}" ><p>User Data</p></a>
+            <a href="{{ url_for( 'admin_coupon' ) }}"><p>Coupon Data</p></a>
+
+    </section>
+</section>
+{% endblock %}

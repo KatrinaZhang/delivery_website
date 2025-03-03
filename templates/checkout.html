@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<section>
+    <h1>Check Out</h1>
+    {% if is_member_str %}
+        <p>Subtotal: €{{org_sub_total}} * 50% membership discount=€{{sub_total_1}}</p>
+    {% else %}
+        <p>Subtotal: €{{org_sub_total}} * no membership discount=€{{sub_total_1}}</p>
+        <p>-><a href="{{url_for('whurdle')}}">Play Wordle to Win Membership</a></p>
+    {% endif %}
+    <form action="" method="POST" novalidate>
+    {{ form.hidden_tag() }}
+    {{ form.coupon.label}}
+    {{ form.coupon()}}
+    </br>
+    {{ form.currency.label}}
+    {{ form.currency()}}
+    </br>
+    {{ form.submit_a() }} 
+    </form>
+    {% if coupon_message %}
+        <h3>Calculation Result:</h3>
+        <p>{{coupon_message}}</p>
+        <p>Subtotal: €{{sub_total}}</p>
+    {% endif %}
+    {% if selectedCurrency %}
+        <p>real time exchange rate for is {{rate}} {{ selectedCurrency}}/EUR</p>
+        <p>The converted amount is {{ exchanged}}{{ selectedCurrency}}</p>
+    {% endif %}
+
+    {% if is_exchanged %}
+    <h3>Continue to Choose:</h3>
+        <form action="" method="POST" novalidate>
+        {{ form_2.hidden_tag() }}
+        {{ form_2.delivery_option.label}}
+        {{ form_2.delivery_option()}}
+        </br>
+        {{ form_2.datetime.label}}
+        {{ form_2.datetime()}}
+        </br>
+        {{ form_2.note.label}}
+        {{ form_2.note()}}
+        </br>
+        {{ form_2.agree_to_terms()}}
+        <a href="{{ url_for('terms') }}">I agree to terms and conditions</a>
+        </br>
+        {{ form_2.submit_b() }} 
+
+
+        </form>
+
+    {% endif %}
+
+
+</section>
+{% endblock %}

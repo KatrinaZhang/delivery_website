@@ -1,0 +1,27 @@
+{% extends "base.html" %} 
+{% block main_content %}
+<section class="admin">
+    <section>
+        <h1>Add Coupon</h1>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag () }} 
+            {{ form.code.label }}
+            {{ form.code()}}
+            {% for error in form.code.errors %}
+                {{ error }} 
+            {% endfor %}         
+            <br/>
+            {{ form.discount_amount.label }}
+            {{ form.discount_amount()}}
+            {% for error in form.discount_amount.errors %}
+                {{ error }} 
+            {% endfor %}         
+            <br/>
+            {{ form.description.label }}
+            {{ form.description()}}   
+            <br/>
+            {{ form.submit() }} 
+        </form>
+    </section>
+</section>
+{% endblock %}

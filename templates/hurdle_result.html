@@ -1,0 +1,9 @@
+{% extends "base.html" %} 
+{% block main_content %}
+<section>
+    {{message}}
+    {% if win %}
+        -><a href="{{url_for('homepage')}}"> Go Shopping</a>
+    {% endif %}
+</section>
+{% endblock %}

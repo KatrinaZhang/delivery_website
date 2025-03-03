@@ -1,0 +1,71 @@
+{% extends "base.html" %} 
+
+{% block main_content %}
+<section id="homepage">
+    <section id="search">
+        <form action="" method="POST" novalidate>
+            {{ search_form.hidden_tag() }}
+
+            {{ search_form.search_bar()}}
+            {{ search_form.submit_search() }}
+            <br/>
+            {% for error in search_form.search_bar.errors %}
+                {{ error }}
+            {% endfor %}
+        </form>
+    </section>
+    <section id="selector">
+        <form action="" method="POST" novalidate>
+            {{ form.hidden_tag() }}
+            <p id="ss">Sort & Selectors</p> 
+            {{ form.delivery_option()}}
+            <p>Sort</p> 
+            {{ form.sort_option()}}    
+            <p>Offers</p>    
+            {# <!-- {{ form.offerOption.label }}
+            {{ form.offerOption()}} --> #}
+            {{ form.is_all_offers()}}
+            {{ form.is_all_offers.label }}
+            <br/>
+            {{ form.is_member_discount_allowed()}}
+            {{ form.is_member_discount_allowed.label }}
+            <br/>
+            {{ form.is_coupon_allowed()}}
+            {{ form.is_coupon_allowed.label }}
+            <br/>
+
+            <p>Dietary</p> 
+            {{ form.is_gluten_free()}}
+            {{ form.is_gluten_free.label }}
+            <br/>
+            {{ form.is_vegan()}}
+            {{ form.is_vegan.label }}
+            <br/>
+            {{ form.is_vegetarian()}}
+            {{ form.is_vegetarian.label }}
+            <br/>
+
+            {# <!-- {{ form.agree_to_terms()}}
+            {{ form.agree_to_terms.label }}
+            <br/> --> #}
+            {{ form.submit_selector() }}
+        </form>
+    </section>
+    <section id="result">
+        {% if searched_result %}
+            {% for item in searched_result %}
+                <section class="item_card">
+                    <img src="{{url_for('static',filename=item["item_id"]|string+".jpeg")}}" alt="{{item["item_name"]}}" title="{{item["item_name"]}}"/>
+                    <p class="item_name">{{item["item_name"]}}</p>
+                    {% if item["item_description"] %}
+                        <p class="item_description">{{item["item_description"]}}</p>
+                    {% endif %}
+                    <p class="item_price">€{{item["item_price"]}}</p>
+                    <div class="grow"></div>
+                    <a href="{{ url_for( 'item', item_id=item['item_id'] ) }}" class="paragraph-link"><p>See details</p></a>
+                </section>
+            {% endfor %}
+        {% endif %}
+    </section>
+<section>
+{% endblock %}

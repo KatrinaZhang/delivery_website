@@ -1,0 +1,40 @@
+{% extends "base.html" %} 
+{% block main_content %}
+<section class="admin">
+    <section>
+        <h1>Users</h1>
+            <table>
+                <tr>
+                    {% for key in users[0].keys() if key != "password"%}
+                        <td>{{key}}</td>
+                    {% endfor %}
+                </tr>
+                {% for user in users %}
+                <tr>
+                    {% for key in user.keys() if key != "password"%}
+                        <td>{{user[key]}}</td>
+                    {% endfor %}
+                    <td><a href="{{ url_for( 'admin_user_delete', user_id=user["user_id"]  ) }}">DELETE</a></td>
+                    <td>
+                        {% if user["is_admin"] %}
+                        <a href="{{ url_for( 'admin_user_stepdown_admin', user_id=user["user_id"]  ) }}">Stepdown Admin</a>
+                        {% else %}
+                        <a href="{{ url_for( 'admin_user_make_admin', user_id=user["user_id"]  ) }}">Make Admin</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user["is_member"] %}
+                        <a href="{{ url_for( 'admin_user_stepdown_member', user_id=user["user_id"]  ) }}">Stepdown Member</a>
+                        {% else %}
+                        <a href="{{ url_for( 'admin_user_make_member', user_id=user["user_id"]  ) }}">Make Member</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <a href="{{ url_for( 'admin_product' ) }}" ><p>Product Data</p></a>
+            <a href="{{ url_for( 'admin_coupon' ) }}" ><p>Coupon Data</p></a>
+
+    </section>    
+</section>
+{% endblock %}
