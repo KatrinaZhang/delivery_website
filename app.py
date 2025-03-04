@@ -631,6 +631,7 @@ for word in fin:
     word=word.strip()
     lstWords.append(word)
 fin.close() 
+#test
 
 @app.route("/whurdle",methods=["GET","POST"])
 @login_required
