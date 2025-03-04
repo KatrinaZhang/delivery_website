@@ -29,6 +29,8 @@ from functools import wraps
 from decimal import Decimal
 import json
 import urllib.request
+import os
+base_dir = os.path.dirname(__file__)  # app.py 所在目录
 
 
 app = Flask(__name__)
@@ -623,7 +625,8 @@ def Score(guessedWord,secret):
     return lstScore
 
 lstWords=[]
-fin=open("five_letter_words.txt","r") 
+five_letter_words_file_path = os.path.join(base_dir, "five_letter_words.txt")
+fin=open(five_letter_words_file_path,"r") 
 for word in fin:
     word=word.strip()
     lstWords.append(word)
@@ -653,7 +656,9 @@ def whurdle():
     if failed_date_str == date_today:
         message="You used up the chance today, comeback tomorrow to win the membership"
         return render_template("hurdle_result.html",message=message,win=0)
-    fin=open("theDay.txt","r")
+    theDay_file_path = os.path.join(base_dir, "theDay.txt")
+    secret_file_path = os.path.join(base_dir, "secret.txt")
+    fin=open(theDay_file_path,"r")
     theDay=fin.read()
     fin.close() 
     # print(theDay)
@@ -661,14 +666,14 @@ def whurdle():
     if now!=theDay:
         theDay=now
         # print(theDay)
-        fout=open("theDay.txt","w")
+        fout=open(theDay_file_path,"w")
         fout.write(theDay)
         fout.close() 
         secret=choice(lstWords)
-        fout=open("secret.txt","w")
+        fout=open(secret_file_path,"w")
         fout.write(secret)
         fout.close() 
-    fin=open("secret.txt","r")
+    fin=open(secret_file_path,"r")
     secretOfDay=fin.read()
     fin.close() 
     # print(secretOfDay)
